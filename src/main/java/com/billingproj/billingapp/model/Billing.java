@@ -20,21 +20,12 @@ public class Billing {
 
     private Integer billingYear;
 
-    //private Integer averageBill;
-
-    @ElementCollection
-    @CollectionTable(name = "months", joinColumns = @JoinColumn(name = "billing_id"))
-    @Column(name = "month")
-    private List<String> months;
-
-    @ElementCollection
-    @CollectionTable(name = "bills", joinColumns = @JoinColumn(name = "billing_id"))
-    @Column(name = "bill")
-    private List<Double> bills;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "billing_id")
+    private List<BillData> billingData = new ArrayList<>();
 
     public Billing() {
     }
-
 
     public Long getId() {
         return id;
@@ -76,27 +67,19 @@ public class Billing {
         this.userCardNo = userCardNo;
     }
 
-    public List<String> getMonths() {
-        return months;
+    public List<BillData> getBillingData() {
+        return billingData;
     }
 
-    public void setMonths(List<String> months) {
-        this.months = months;
-    }
-
-    public List<Double> getBills() {
-        return bills;
-    }
-
-    public void setBills(List<Double> bills) {
-        this.bills = bills;
-    }
-
-    public Integer getBillingYear() {
-        return billingYear;
+    public void setBillingData(List<BillData> billingData) {
+        this.billingData = billingData;
     }
 
     public void setBillingYear(Integer billingYear) {
         this.billingYear = billingYear;
     }
+
+
+
+
 }
