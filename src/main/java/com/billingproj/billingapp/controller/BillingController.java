@@ -2,16 +2,17 @@ package com.billingproj.billingapp.controller;
 
 import com.billingproj.billingapp.DTO.BillingWithAverageBill;
 import com.billingproj.billingapp.exception.BillNotFoundException;
+import com.billingproj.billingapp.model.BillData;
 import com.billingproj.billingapp.model.Billing;
 import com.billingproj.billingapp.repository.BillingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 public class BillingController {
 
     @Autowired
@@ -31,22 +32,22 @@ public class BillingController {
 
         if (billingOptional.isPresent()) {
             Billing billing = billingOptional.get();
-            double averageBill = calculateAverageBill(billing.getBills());
+            double averageBill = calculateAverageBill(billing.getBillingData());
             return new BillingWithAverageBill(billing, averageBill);
         } else {
             throw new BillNotFoundException(id);
         }
     }
 
-    private double calculateAverageBill(List<Double> bills) {
-        if (bills == null || bills.isEmpty()) {
+    private double calculateAverageBill(List<BillData> billingData) {
+        if (billingData == null || billingData.isEmpty()) {
             return 0.0;
         }
 
         double sum = 0;
-        for (Double bill : bills) {
-            sum += bill;
+        for (BillData obj : billingData) {
+            sum += obj.getAmount();
         }
-        return sum / bills.size();
+        return sum / billingData.size();
     }
 }
