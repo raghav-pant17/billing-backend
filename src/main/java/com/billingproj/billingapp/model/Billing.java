@@ -80,6 +80,8 @@ public class Billing {
     }
 
 
-
+    public Integer getBillingYear() {
+        return billingYear;
+    }
 
 }
